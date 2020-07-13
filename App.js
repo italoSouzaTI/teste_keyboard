@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useEffect,useState} from 'react';
-import { StyleSheet, Text, ScrollView,View, Keyboard, TextInput, TouchableOpacity, TouchableNativeFeedback, KeyboardAvoidingView, Platform } from 'react-native';
+import { StyleSheet, Text,View, Keyboard, TextInput, TouchableOpacity, TouchableNativeFeedback, KeyboardAvoidingView, Platform } from 'react-native';
 
 // import { Container } from './styles';
 
@@ -8,12 +8,9 @@ const teste_keyboard = () => {
   const [status, setStatus] =useState(false)
   const [txtValue, setTxtValue] =useState(null)
 
-  useEffect(()=>{
-    
-    setStatus(true)
-    alert(status)
-  },[txtValue])
   
+  Keyboard.addListener('keyboardDidShow',()=>setStatus(true))
+  Keyboard.addListener('keyboardDidHide',()=>setStatus(false))
 
   const HandleInput = () => {
     Keyboard.dismiss()
@@ -23,7 +20,7 @@ const teste_keyboard = () => {
     <KeyboardAvoidingView style={styles.Container}
       behavior={Platform.OS == "ios" ? "height" : "height"} >
       <StatusBar style="auto" />
-      <ScrollView style={styles.ContainerView}>
+      <View style={styles.ContainerView}>
         <Text style={styles.label}>Digite algo</Text>
         <TextInput
           style={styles.containerInput}
@@ -38,8 +35,8 @@ const teste_keyboard = () => {
         >
           <Text style={styles.textBTn}>Concluir</Text>
         </TouchableOpacity>
-      </ScrollView>
-      {!status &&(
+      </View>
+      {status &&(
         <View style={styles.ContainerBtnInput}>
         <TouchableNativeFeedback
           style={styles.btnCloseInput}
